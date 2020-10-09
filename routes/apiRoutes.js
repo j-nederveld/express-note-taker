@@ -9,27 +9,34 @@ let savedNotes = [];
 module.exports = function(app) {
 
   app.get("/api/notes", function(req, res) {
+    savedNotes = [];
     fs.readFile(outputPath, 'utf8',  (err, data) => {
         if (err) throw err;
-        data = JSON.parse(data);
-        savedNotes.push(data)
-      });
-  });
+        data = JSON.parse(data)
+        for (i = 0; i < data.length; i++){
+          savedNotes.push(data[i])
+        }
+        console.log(savedNotes);
+       });
+       
+   });
+  
 
   app.post("/api/notes", function(req, res) {
-
+    notesArray = [];
     fs.readFile(outputPath, 'utf8',  (err, data) => {
         if (err) throw err;
-        console.log(data);
-        notesArray.push(JSON.parse(data));
-      
-    console.log(req.body);
-        newNote = JSON.stringify(req.body);
-        notesArray.push(newNote)
-
-    fs.writeFile(outputPath, notesArray, function(err) {
+        // console.log(data);
+        data = JSON.parse(data)
+        for (i = 0; i < data.length; i++){
+          notesArray.push(data[i])
+        }
+        notesArray.push(req.body);
+        console.log(notesArray);
+  
+    fs.writeFile(outputPath, JSON.stringify(notesArray), function(err) {
         if (err) {
-            throw err;
+          throw err;
         } else {
 
         console.log("you did it");
