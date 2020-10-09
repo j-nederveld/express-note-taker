@@ -1,34 +1,41 @@
-var notes = require("../db/db.json");
+const path = require('path')
+const OUTPUT_DIR = path.resolve(__dirname, "../db");
+const outputPath = path.join(OUTPUT_DIR, "db.json");
+// var notes = require("../db/db.json");
+const fs = require('fs');
 
+let notesArray = [];
+let savedNotes = [];
 module.exports = function(app) {
 
   app.get("/api/notes", function(req, res) {
-    res.json(notes);
+    fs.readFile(outputPath, 'utf8',  (err, data) => {
+        if (err) throw err;
+        data = JSON.parse(data);
+        savedNotes.push(data)
+      });
   });
 
-  app.post("/api/tables", function(req, res) {
-    // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
-    // It will do this by sending out the value "true" have a table
-    // req.body is available since we're using the body parsing middleware
-    if (tableData.length < 5) {
-      tableData.push(req.body);
-      res.json(true);
-    }
-    else {
-      waitListData.push(req.body);
-      res.json(false);
-    }
+  app.post("/api/notes", function(req, res) {
+
+    fs.readFile(outputPath, 'utf8',  (err, data) => {
+        if (err) throw err;
+        console.log(data);
+        notesArray.push(JSON.parse(data));
+      
+    console.log(req.body);
+        newNote = JSON.stringify(req.body);
+        notesArray.push(newNote)
+
+    fs.writeFile(outputPath, notesArray, function(err) {
+        if (err) {
+            throw err;
+        } else {
+
+        console.log("you did it");
+        }
+      })
+    });
   });
 
-  // ---------------------------------------------------------------------------
-  // I added this below code so you could clear out the table while working with the functionality.
-  // Don"t worry about it!
-
-  app.post("/api/clear", function(req, res) {
-    // Empty out the arrays of data
-    tableData.length = 0;
-    waitListData.length = 0;
-
-    res.json({ ok: true });
-  });
-};
+}
