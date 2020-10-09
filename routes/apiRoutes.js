@@ -16,14 +16,13 @@ module.exports = function(app) {
         for (i = 0; i < data.length; i++){
           savedNotes.push(data[i])
         }
-        console.log(savedNotes);
+        res.send(savedNotes);
        });
-       
    });
-  
 
   app.post("/api/notes", function(req, res) {
     notesArray = [];
+    notesArray.push(req.body);
     fs.readFile(outputPath, 'utf8',  (err, data) => {
         if (err) throw err;
         // console.log(data);
@@ -31,8 +30,14 @@ module.exports = function(app) {
         for (i = 0; i < data.length; i++){
           notesArray.push(data[i])
         }
-        notesArray.push(req.body);
+        
+
+        for(i = 0; i < notesArray.length; i++){
+          notesArray[i].id = i + 1;
+        }
+
         console.log(notesArray);
+        res.send(notesArray);
   
     fs.writeFile(outputPath, JSON.stringify(notesArray), function(err) {
         if (err) {
@@ -45,4 +50,24 @@ module.exports = function(app) {
     });
   });
 
+  app.delete("/api/notes/:id", (req, res) => {
+    notesArray = [];
+    let noteId = req.params.id;
+    console.log(noteId);
+
+    fs.readFile(outputPath, "utf-8", (err, data) => {
+      if (err) throw err;
+      notesArray = JSON.parse(data);
+
+      const newNotesArray = notesArray.filter(note => note.id != noteId);
+
+      console.log(newNotesArray);
+
+      fs.writeFile(outputPath, JSON.stringify(newNotesArray) + "\t", err => {
+        if (err) throw err;
+        console.log("note deleted");
+        res.send(newNotesArray)
+      })
+    })
+  })
 }

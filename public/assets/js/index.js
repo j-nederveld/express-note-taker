@@ -15,6 +15,7 @@ const getNotes = () => {
   });
 };
 
+
 // A function for saving a note to the db
 const saveNote = (note) => {
   return $.ajax({
@@ -54,9 +55,7 @@ const handleNoteSave = function () {
   const newNote = {
     title: $noteTitle.val(),
     text: $noteText.val(),
-    
   };
-
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
