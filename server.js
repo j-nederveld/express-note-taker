@@ -11,7 +11,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'db')));
 app.use(express.json());
 
-
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
