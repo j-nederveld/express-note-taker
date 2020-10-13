@@ -45,6 +45,10 @@ npm test
 `
 ___________________________________________________________________________
 
+![express-note-taker](https://github.com/j-nederveld/express-note-taker/blob/main/public/assets/img/Screen%20Shot%202020-10-13%20at%209.53.21%20AM.png)
+
+![express-note-taker](https://github.com/j-nederveld/express-note-taker/blob/main/public/assets/img/Screen%20Shot%202020-10-13%20at%209.53.28%20AM.png)
+
 
 
 Copyright (c) 2020 John Nederveld
